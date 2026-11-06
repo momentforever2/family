@@ -8,30 +8,37 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-180.png">
+<script>
+  // ↓↓ 你的 Google Apps Script 網址（/exec 結尾） ↓↓
+  const APP_URL = 'https://script.google.com/macros/s/AKfycbxAotVJvKkQEbH_PH8C4FFwobU3Oa9AsXT0YsLNj8aFIUp2y4aCurVYFpjpDEda0d80/exec';
+  // 從桌面圖示打開時，直接進入 app
+  const fromIcon = new URLSearchParams(location.search).has('app') ||
+    window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (fromIcon) location.replace(APP_URL);
+</script>
 <style>
-  html,body{margin:0;height:100%;background:#f3f5f2;font-family:system-ui,"Noto Sans TC",sans-serif}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0}
-  #help{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:#1f2a24;color:#fff;font-size:14px;display:flex;gap:10px;align-items:center;justify-content:space-between}
-  #help a{color:#fff;background:#2f6b55;padding:6px 12px;border-radius:8px;text-decoration:none;white-space:nowrap}
-  #help button{background:none;border:0;color:#9aaba1;font-size:18px}
+  :root{--bg:#f3f5f2;--fg:#1f2a24;--muted:#617066;--accent:#2f6b55}
+  @media (prefers-color-scheme:dark){:root{--bg:#141a17;--fg:#e6ece8;--muted:#9aaba1;--accent:#7cc4a6}}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+  main{max-width:420px;margin:0 auto;padding:48px 20px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+  img{width:96px;height:96px;border-radius:22px}
+  h1{margin:0;font-size:1.4rem}
+  p{margin:0;color:var(--muted);line-height:1.6}
+  a.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:12px}
+  ol{text-align:left;color:var(--muted);line-height:1.8;padding-left:1.2em;margin:0}
 </style>
 </head>
 <body>
-<!-- ↓↓ 把這裡換成你的 Apps Script 網址（/exec 結尾） ↓↓ -->
-<script>const APP_URL = 'https://script.google.com/macros/s/AKfycbxAotVJvKkQEbH_PH8C4FFwobU3Oa9AsXT0YsLNj8aFIUp2y4aCurVYFpjpDEda0d80/exec';</script>
-
-<iframe id="app" title="我們家的行事曆" allow="clipboard-write"></iframe>
-<div id="help" hidden>
-  <span>畫面空白或要求登入？</span>
-  <a id="direct" target="_top">直接開啟</a>
-  <button aria-label="關閉" onclick="this.parentNode.hidden=true;try{localStorage.setItem('helpOff','1')}catch(e){}">✕</button>
-</div>
-<script>
-  document.getElementById('app').src = APP_URL;
-  document.getElementById('direct').href = APP_URL;
-  // 嵌入的畫面如果因為登入問題打不開，8 秒後顯示「直接開啟」備用按鈕
-  let off=false; try{ off=localStorage.getItem('helpOff')==='1'; }catch(e){}
-  if(!off) setTimeout(() => { document.getElementById('help').hidden = false; }, 8000);
-</script>
+<main>
+  <img src="icon-192.png" alt="">
+  <h1>我們家的行事曆</h1>
+  <p>把這頁加到手機主畫面，以後點圖示就會直接打開。</p>
+  <ol>
+    <li>Android Chrome：右上角「⋮」→「加到主畫面」或「安裝應用程式」</li>
+    <li>iPhone Safari：下方「分享」→「加入主畫面」</li>
+  </ol>
+  <a class="btn" id="go">現在直接開啟</a>
+</main>
+<script>document.getElementById('go').href = APP_URL;</script>
 </body>
 </html>
