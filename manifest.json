@@ -1,7 +1,7 @@
 {
   "name": "我們家的行事曆",
   "short_name": "我們家",
-  "start_url": "./",
+  "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#2f6b55",
